@@ -1,0 +1,32 @@
+name: CI Pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pylint coverage pytest
+
+      - name: Lint
+        run: pylint src
+
+      - name: Run tests
+        run: pytest
+
+      - name: Coverage
+        run: |
+          coverage run -m pytest
+          coverage report
+          coverage html
