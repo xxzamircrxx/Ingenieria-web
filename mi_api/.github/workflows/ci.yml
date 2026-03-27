@@ -7,25 +7,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: mi_api
         run: |
           pip install -r requirements.txt
           pip install pylint coverage pytest
 
       - name: Lint
+        working-directory: mi_api
         run: pylint src
 
       - name: Run tests
+        working-directory: mi_api
         run: pytest
 
       - name: Coverage
+        working-directory: mi_api
         run: |
           coverage run -m pytest
           coverage report
